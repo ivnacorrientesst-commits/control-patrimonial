@@ -44,17 +44,41 @@ const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',s
 profile=p.data||null;
 }
 function canEdit(){return profile&&profile.activo&&['admin','operador','relevador'].includes(profile.rol)}
-async function pub(msg=''){
-if(!qr){
-app.innerHTML='<div class="card"><div class="title">Control Patrimonial</div><div class="muted">Abrí esta página desde el QR de una oficina.</div></div>';
+async function home(){
+if(!session||!profile||!profile.activo){
+app.innerHTML='<div class="hero"><small>SISTEMA PATRIMONIAL</small><h2>Edificio Municipal</h2><div>Inventario y relevamientos</div></div><div class="card"><div class="title">Acceso al sistema</div><div class="muted" style="margin:6px 0 12px">El inventario público se abre desde el QR de cada oficina. El personal autorizado puede ingresar al panel general.</div><button id="in" class="btn blue" style="width:100%">Acceso personal</button></div>';
+document.getElementById('in').onclick=login;
 return;
 }
+const ro=await db.from('oficinas').select('id,nombre,slug_qr,referencia,area_id,areas(nombre),sedes!inner(nombre)').eq('activa',true).eq('sedes.nombre','Edificio Municipal').order('nombre');
+if(ro.error){app.innerHTML='<div class="error">No se pudieron cargar las oficinas: '+e(ro.error.message)+'</div>';return}
+const offices=ro.data||[];
+let counts={};
+if(offices.length){
+const ids=offices.map(o=>o.id);
+const rb=await db.from('bienes').select('oficina_id,cantidad').eq('activo',true).in('oficina_id',ids);
+if(!rb.error)(rb.data||[]).forEach(b=>{if(!counts[b.oficina_id])counts[b.oficina_id]={r:0,u:0};counts[b.oficina_id].r++;counts[b.oficina_id].u+=Number(b.cantidad||1)});
+}
+const totalReg=Object.values(counts).reduce((a,x)=>a+x.r,0),totalUni=Object.values(counts).reduce((a,x)=>a+x.u,0);
+app.innerHTML='<div class="hero"><small>PANEL GENERAL</small><h2>Edificio Municipal</h2><div>'+offices.length+' oficinas / sectores · '+totalReg+' registros · '+totalUni+' unidades</div></div><div class="between"><input id="hq" class="search" style="flex:1" placeholder="Buscar oficina o área..."><button id="out" class="btn ghost">Salir</button></div><div id="offices"></div><div class="muted" style="text-align:center;margin:15px">Sesión: '+e(profile.nombre||profile.email||session.user.email)+' · '+e(profile.rol||'usuario')+'</div>';
+function drawHome(t=''){
+t=t.toLowerCase();
+document.getElementById('offices').innerHTML=offices.filter(o=>JSON.stringify(o).toLowerCase().includes(t)).map(o=>{const c=counts[o.id]||{r:0,u:0};const area=o.areas?.nombre||'';return '<div class="item"><div class="between"><div><div class="ititle">'+e(o.nombre)+'</div><div class="isub">'+e(area)+'</div></div><span class="pill">'+c.r+' bienes</span></div>'+(o.referencia?'<div class="isub">'+e(o.referencia)+'</div>':'')+'<button class="btn green" data-open="'+e(o.slug_qr)+'" style="width:100%;margin-top:10px">Abrir inventario / relevamiento</button></div>'}).join('')||'<div class="card muted">No se encontraron oficinas.</div>';
+document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>location.href=location.origin+location.pathname+'?qr='+encodeURIComponent(b.dataset.open));
+}
+drawHome();
+document.getElementById('hq').oninput=ev=>drawHome(ev.target.value);
+document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;home()};
+}
+async function pub(msg=''){
+if(!qr){await home();return}
 const r=await db.rpc('inventario_publico_por_oficina_qr',{p_slug:qr});
 if(r.error||!r.data){app.innerHTML='<div class="error">QR no válido o la oficina no está disponible.</div>';return}
 const d=r.data,list=d.bienes||[];
 app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+
 (msg?'<div class="ok">'+e(msg)+'</div>':'')+
 '<div class="between"><input id="q" class="search" style="flex:1" placeholder="Buscar en esta oficina..."><div class="row">'+
+(session?'<button id="panel" class="btn ghost">Panel del edificio</button>':'')+
 (session&&canEdit()?'<button id="control" class="btn green">Iniciar relevamiento</button>':'')+
 (session?'<button id="out" class="btn ghost">Salir</button>':'<button id="in" class="btn blue">Acceso personal</button>')+
 '</div></div><div id="list"></div><div class="muted" style="text-align:center;margin:15px">'+
@@ -70,6 +94,7 @@ document.getElementById('list').innerHTML=list.filter(x=>JSON.stringify(x).toLow
 draw();
 document.getElementById('q').oninput=ev=>draw(ev.target.value);
 if(document.getElementById('in'))document.getElementById('in').onclick=login;
+if(document.getElementById('panel'))document.getElementById('panel').onclick=()=>location.href=location.origin+location.pathname;
 if(document.getElementById('out'))document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;pub()};
 if(document.getElementById('control'))document.getElementById('control').onclick=startRel;
 }
