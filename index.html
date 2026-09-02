@@ -29,36 +29,202 @@ textarea{min-height:80px;resize:vertical}.muted{color:#667085;font-size:13px}.ti
 <div id="app" class="wrap">Cargando...</div>
 <script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.112.2';
-
 const SUPABASE_URL='https://jqbeweclwqquevfpycyh.supabase.co';
 const PUBLISHABLE_KEY='sb_publishable_pmrA8WStSO7tYb9yEeYMQQ_dQiDNIFm';
 const db=createClient(SUPABASE_URL,PUBLISHABLE_KEY);
 const app=document.getElementById('app');
 const qr=new URLSearchParams(location.search).get('qr');
 let session=null,profile=null,office=null,current=[],pending=[],rel=null,items=[];
-
 const e=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
 async function sess(){
-  const s=await db.auth.getSession();
-  session=s.data.session||null;
-  if(!session){profile=null;return}
-  const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',session.user.id).single();
-  profile=p.data||null;
+const s=await db.auth.getSession();
+session=s.data.session||null;
+if(!session){profile=null;return}
+const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',session.user.id).single();
+profile=p.data||null;
 }
-
 function canEdit(){return profile&&profile.activo&&['admin','operador','relevador'].includes(profile.rol)}
-
 async function pub(msg=''){
-  if(!qr){
-    app.innerHTML='<div class="card"><div class="title">Control Patrimonial</div><div class="muted">Abrí esta página desde el QR de una oficina.</div></div>';
-    return;
-  }
-  const r=await db.rpc('inventario_publico_por_oficina_qr',{p_slug:qr});
-  if(r.error||!r.data){app.innerHTML='<div class="error">QR no válido o la oficina no está disponible.</div>';return}
-  const d=r.data,list=d.bienes||[];
-  app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+””;
+if(!qr){
+app.innerHTML='<div class="card"><div class="title">Control Patrimonial</div><div class="muted">Abrí esta página desde el QR de una oficina.</div></div>';
+return;
 }
+const r=await db.rpc('inventario_publico_por_oficina_qr',{p_slug:qr});
+if(r.error||!r.data){app.innerHTML='<div class="error">QR no válido o la oficina no está disponible.</div>';return}
+const d=r.data,list=d.bienes||[];
+app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+
+(msg?'<div class="ok">'+e(msg)+'</div>':'')+
+'<div class="between"><input id="q" class="search" style="flex:1" placeholder="Buscar en esta oficina..."><div class="row">'+
+(session&&canEdit()?'<button id="control" class="btn green">Iniciar relevamiento</button>':'')+
+(session?'<button id="out" class="btn ghost">Salir</button>':'<button id="in" class="btn blue">Acceso personal</button>')+
+'</div></div><div id="list"></div><div class="muted" style="text-align:center;margin:15px">'+
+(session?'Sesión: '+e(profile?.nombre||profile?.email||session.user.email)+' · '+e(profile?.rol||'usuario'):'Consulta pública · solo lectura')+'</div>';
+function draw(t=''){
+t=t.toLowerCase();
+document.getElementById('list').innerHTML=list.filter(x=>JSON.stringify(x).toLowerCase().includes(t)).map(x=>
+'<div class="item"><div class="ititle">'+e(x.descripcion||'Bien')+'</div><div class="isub">'+e([x.codigo?('Código '+x.codigo):'',x.marca,x.modelo,x.color].filter(Boolean).join(' · '))+'</div>'+
+(x.estado?'<span class="pill">'+e(x.estado)+'</span>':'')+
+(x.observaciones?'<div class="isub">Obs.: '+e(x.observaciones)+'</div>':'')+'</div>'
+).join('')||'<div class="card muted">No hay bienes asignados a esta oficina todavía.</div>';
+}
+draw();
+document.getElementById('q').oninput=ev=>draw(ev.target.value);
+if(document.getElementById('in'))document.getElementById('in').onclick=login;
+if(document.getElementById('out'))document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;pub()};
+if(document.getElementById('control'))document.getElementById('control').onclick=startRel;
+}
+function login(){
+app.innerHTML='<div class="login"><div class="title">Acceso al sistema</div><p class="muted">Solo personal autorizado puede modificar.</p><div id="err"></div><form id="f"><div class="field"><label>Correo</label><input id="em" type="email" autocomplete="username" required></div><div class="field"><label>Contraseña</label><input id="pw" type="password" autocomplete="current-password" required></div><button class="btn green" style="width:100%">Ingresar</button></form><button id="forgot" class="btn blue" style="width:100%;margin-top:8px">Olvidé mi contraseña</button><button id="back" class="btn ghost" style="width:100%;margin-top:8px">Volver</button></div>';
+document.getElementById('f').onsubmit=async ev=>{
+ev.preventDefault();
+const r=await db.auth.signInWithPassword({email:document.getElementById('em').value.trim(),password:document.getElementById('pw').value});
+if(r.error){document.getElementById('err').innerHTML='<div class="error">Correo o contraseña incorrectos.</div>';return}
+await sess();pub();
+};
+document.getElementById('forgot').onclick=async()=>{
+const email=document.getElementById('em').value.trim();
+if(!email){document.getElementById('err').innerHTML='<div class="error">Escribí primero tu correo arriba.</div>';return}
+if(qr)localStorage.setItem('patrimonio_recovery_qr',qr);
+const redirectTo=location.origin+location.pathname;
+const r=await db.auth.resetPasswordForEmail(email,{redirectTo});
+if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo enviar el correo: '+e(r.error.message)+'</div>';return}
+document.getElementById('err').innerHTML='<div class="ok">Te enviamos un correo para cambiar la contraseña. Revisá también Spam o Correo no deseado.</div>';
+};
+document.getElementById('back').onclick=()=>pub();
+}
+function passwordRecovery(){
+app.innerHTML='<div class="login"><div class="title">Crear contraseña nueva</div><p class="muted">Elegí una contraseña nueva para tu usuario de Control Patrimonial.</p><div id="err"></div><form id="rf"><div class="field"><label>Nueva contraseña</label><input id="np1" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label>Repetir contraseña</label><input id="np2" type="password" autocomplete="new-password" minlength="8" required></div><button class="btn green" style="width:100%">Guardar contraseña</button></form></div>';
+document.getElementById('rf').onsubmit=async ev=>{
+ev.preventDefault();
+const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
+if(p1.length<8){document.getElementById('err').innerHTML='<div class="error">Usá al menos 8 caracteres.</div>';return}
+if(p1!==p2){document.getElementById('err').innerHTML='<div class="error">Las contraseñas no coinciden.</div>';return}
+const r=await db.auth.updateUser({password:p1});
+if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo cambiar: '+e(r.error.message)+'</div>';return}
+const saved=localStorage.getItem('patrimonio_recovery_qr')||'';
+localStorage.removeItem('patrimonio_recovery_qr');
+await db.auth.signOut();
+const target=location.origin+location.pathname+(saved?'?qr='+encodeURIComponent(saved):'');
+location.replace(target);
+};
+}
+async function loadOffice(){
+const o=await db.from('oficinas').select('id,area_id,nombre,slug_qr').eq('slug_qr',qr).eq('activa',true).single();
+if(o.error)throw o.error;
+office=o.data;
+const r=await Promise.all([
+db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('oficina_id',office.id).order('descripcion'),
+db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('area_responsable_id',office.area_id).is('oficina_id',null).order('descripcion')
+]);
+current=r[0].data||[];
+pending=r[1].data||[];
+}
+async function startRel(){
+if(!canEdit()){login();return}
+try{
+await loadOffice();
+let q=await db.from('relevamientos').select('id,fecha_inicio').eq('oficina_id',office.id).eq('realizado_por',session.user.id).eq('estado','abierto').maybeSingle();
+rel=q.data;
+if(!rel){
+const c=await db.from('relevamientos').insert({oficina_id:office.id,realizado_por:session.user.id,estado:'abierto'}).select('id,fecha_inicio').single();
+if(c.error)throw c.error;
+rel=c.data;
+}
+if(current.length){
+await db.from('relevamiento_items').upsert(current.map(g=>({relevamiento_id:rel.id,bien_id:g.id,resultado:'pendiente'})),{onConflict:'relevamiento_id,bien_id',ignoreDuplicates:true});
+}
+await loadItems();
+renderRel();
+}catch(err){
+app.innerHTML='<div class="error">No se pudo iniciar: '+e(err.message||err)+'</div><button id="b" class="btn ghost">Volver</button>';
+document.getElementById('b').onclick=()=>pub();
+}
+}
+async function loadItems(){
+const r=await db.from('relevamiento_items').select('bien_id,resultado,observaciones').eq('relevamiento_id',rel.id);
+items=r.data||[];
+}
+function it(id){return items.find(x=>x.bien_id===id)||{resultado:'pendiente'}}
+function renderRel(){
+app.innerHTML='<div class="hero"><small>RELEVAMIENTO EN CURSO</small><h2>'+e(office.nombre)+'</h2><small>'+e(profile.nombre||profile.email)+'</small></div><div class="title">Bienes de esta oficina</div><div id="cur"></div><div class="title" style="margin-top:18px">Pendientes de ubicar de esta Dirección ('+pending.length+')</div><div class="muted">Marcá “Está acá” solamente si lo verificás físicamente.</div><div id="pen"></div><div class="card"><div class="ititle">¿Encontraste algo que no figura?</div><button id="new" class="btn blue" style="width:100%;margin-top:8px">Bien nuevo detectado</button></div><div class="row"><button id="back" class="btn ghost">Inventario</button><button id="finish" class="btn green" style="flex:1">Finalizar relevamiento</button></div>';
+document.getElementById('cur').innerHTML=current.map(g=>
+'<div class="item"><div class="between"><div><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div></div><span class="pill">'+e(it(g.id).resultado)+'</span></div><div class="actions"><button class="btn green" data-f="'+g.id+'">Encontrado</button><button class="btn red" data-m="'+g.id+'">Faltante</button><button class="btn orange" data-o="'+g.id+'">Observación</button><button class="btn ghost" data-move="'+g.id+'">Mover a otra oficina</button></div></div>'
+).join('')||'<div class="card muted">Todavía no hay bienes asignados.</div>';
+document.getElementById('pen').innerHTML=pending.map(g=>
+'<div class="item"><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div><button class="btn blue" data-h="'+g.id+'" style="margin-top:8px;width:100%">Está en esta oficina</button></div>'
+).join('')||'<div class="card muted">No quedan pendientes.</div>';
+document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>mark(b.dataset.f,'encontrado'));
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>mark(b.dataset.m,'faltante'));
+document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>obs(b.dataset.o));
+document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>moveGood(b.dataset.move));
+document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>here(b.dataset.h));
+document.getElementById('new').onclick=newGood;
+document.getElementById('back').onclick=()=>pub();
+document.getElementById('finish').onclick=finish;
+}
+async function mark(id,res,extra={}){
+const r=await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:res,oficina_observada_id:office.id,verificado_en:new Date().toISOString(),...extra},{onConflict:'relevamiento_id,bien_id'});
+if(r.error){alert(r.error.message);return}
+await loadItems();renderRel();
+}
+async function obs(id){const t=prompt('Observación:');if(t)await mark(id,'observado',{observaciones:t})}
+async function here(id){
+if(!confirm('¿Confirmás que este bien está físicamente en esta oficina?'))return;
+const u=await db.from('bienes').update({oficina_id:office.id}).eq('id',id);
+if(u.error){alert(u.error.message);return}
+await db.from('movimientos').insert({bien_id:id,oficina_destino_id:office.id,area_destino_id:office.area_id,motivo:'Asignado durante relevamiento',realizado_por:session.user.id});
+await loadOffice();
+await mark(id,'encontrado');
+}
+async function moveGood(id){
+const good=current.find(x=>x.id===id);
+if(!good){alert('No se encontró el bien en esta oficina.');return}
+const r=await db.from('oficinas').select('id,nombre,area_id,slug_qr').eq('activa',true).neq('id',office.id).order('nombre');
+if(r.error){alert('No se pudieron cargar las oficinas: '+r.error.message);return}
+const offices=r.data||[];
+if(!offices.length){
+alert('Todavía no hay otra oficina activa cargada. Cuando carguemos las demás oficinas, este botón permitirá hacer el traslado.');
+return;
+}
+app.innerHTML='<div class="hero"><small>MOVIMIENTO DE BIEN</small><h2>'+e(good.descripcion||'Bien')+'</h2><small>Origen: '+e(office.nombre)+'</small></div><div class="card"><div class="muted" style="margin-bottom:10px">Este movimiento cambia solamente la ubicación física. El área responsable del bien se mantiene.</div><form id="moveform"><div class="field"><label>Oficina destino</label><select id="dest" required><option value="">Elegí una oficina...</option>'+offices.map(o=>'<option value="'+e(o.id)+'">'+e(o.nombre)+'</option>').join('')+'</select></div><div class="field"><label>Motivo / detalle</label><textarea id="reason" placeholder="Ej.: traslado definitivo, préstamo interno, reorganización..."></textarea></div><button class="btn green" style="width:100%">Confirmar traslado</button></form><button id="cancelmove" class="btn ghost" style="width:100%;margin-top:8px">Cancelar</button></div>';
+document.getElementById('cancelmove').onclick=()=>renderRel();
+document.getElementById('moveform').onsubmit=async ev=>{
+ev.preventDefault();
+const destId=document.getElementById('dest').value;
+const dest=offices.find(o=>o.id===destId);
+const reason=document.getElementById('reason').value.trim();
+if(!dest)return;
+if(!confirm('¿Mover “'+(good.descripcion||'Bien')+'” de '+office.nombre+' a '+dest.nombre+'?'))return;
+const m=await db.rpc('mover_bien_oficina',{p_bien_id:id,p_oficina_destino_id:dest.id,p_motivo:reason||'Traslado entre oficinas'});
+if(m.error){alert('No se pudo mover el bien: '+m.error.message);return}
+const note='Movido a '+dest.nombre+(reason?' · '+reason:'');
+await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:'observado',observaciones:note,oficina_observada_id:office.id,verificado_en:new Date().toISOString()},{onConflict:'relevamiento_id,bien_id'});
+await loadOffice();
+await loadItems();
+renderRel();
+alert('Bien trasladado a '+dest.nombre+'. El movimiento quedó guardado en el historial.');
+};
+}
+async function newGood(){
+const d=prompt('Descripción del bien nuevo:');
+if(!d)return;
+const r=await db.from('relevamiento_novedades').insert({relevamiento_id:rel.id,tipo:'bien_nuevo',descripcion:d,datos:{oficina_id:office.id,oficina:office.nombre}});
+if(r.error)alert(r.error.message);else alert('Novedad registrada.');
+}
+async function finish(){
+await loadItems();
+const p=items.filter(x=>x.resultado==='pendiente').length;
+if(p&&!confirm('Quedan '+p+' bienes pendientes. Se marcarán faltantes. ¿Finalizar?'))return;
+if(p)await db.from('relevamiento_items').update({resultado:'faltante',verificado_en:new Date().toISOString()}).eq('relevamiento_id',rel.id).eq('resultado','pendiente');
+const r=await db.from('relevamientos').update({estado:'cerrado',fecha_cierre:new Date().toISOString()}).eq('id',rel.id);
+if(r.error){alert(r.error.message);return}
+rel=null;
+pub('Relevamiento finalizado y guardado.');
+}
+let recoveryShown=false;
+db.auth.onAuthStateChange((event,s)=>{if(event==='PASSWORD_RECOVERY'){recoveryShown=true;session=s;passwordRecovery()}});
+async function boot(){await new Promise(r=>setTimeout(r,250));if(recoveryShown)return;await sess();pub()}
+boot();
 </script>
 </body>
 </html>
