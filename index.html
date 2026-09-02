@@ -21,6 +21,7 @@ textarea{min-height:80px;resize:vertical}.muted{color:#667085;font-size:13px}.ti
 .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.actions .btn{flex:1 1 120px}
 .login{max-width:420px;margin:7vh auto;background:white;border-radius:18px;padding:20px;box-shadow:0 5px 18px #0001}.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:5px}
 .error{background:#fff0f0;color:#b42318;border:1px solid #ffc9c9;padding:10px;border-radius:10px;margin:10px 0}.ok{background:#ebfbee;color:#2b8a3e;border:1px solid #b2f2bb;padding:10px;border-radius:10px;margin:10px 0}
+.qr-sheet{background:#fff;border-radius:18px;padding:24px;text-align:center;max-width:700px;margin:10px auto;box-shadow:0 3px 12px #0001}.qr-sheet img{width:min(72vw,360px);height:auto;image-rendering:pixelated}.qr-office{font-size:28px;font-weight:900;margin:12px 0 4px}.qr-area{font-size:18px;font-weight:700}.qr-note{margin:14px auto 0;max-width:520px;font-size:16px}.qr-url{font-size:11px;color:#667085;word-break:break-all;margin-top:12px}@media print{body{background:#fff}.top,.no-print{display:none!important}.wrap{max-width:none;padding:0}.qr-sheet{box-shadow:none;border-radius:0;max-width:none;margin:0;padding:18mm 14mm;min-height:277mm;display:flex;flex-direction:column;align-items:center;justify-content:center}.qr-sheet img{width:100mm}.qr-office{font-size:26pt}.qr-area{font-size:16pt}.qr-note{font-size:14pt}.qr-url{font-size:8pt}}
 @media(max-width:650px){.wrap{padding:9px}.btn{padding:12px}.actions .btn{flex:1 1 45%}}
 </style>
 </head>
@@ -29,6 +30,7 @@ textarea{min-height:80px;resize:vertical}.muted{color:#667085;font-size:13px}.ti
 <div id="app" class="wrap">Cargando...</div>
 <script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.112.2';
+import QRCode from 'https://esm.sh/qrcode@1.5.4';
 const SUPABASE_URL='https://jqbeweclwqquevfpycyh.supabase.co';
 const PUBLISHABLE_KEY='sb_publishable_pmrA8WStSO7tYb9yEeYMQQ_dQiDNIFm';
 const db=createClient(SUPABASE_URL,PUBLISHABLE_KEY);
@@ -44,6 +46,20 @@ const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',s
 profile=p.data||null;
 }
 function canEdit(){return profile&&profile.activo&&['admin','operador','relevador'].includes(profile.rol)}
+async function showOfficeQR(data,backFn){
+const slug=data.slug_qr||qr;
+if(!slug){alert('Esta oficina todavía no tiene QR asignado.');return}
+const target=location.origin+location.pathname+'?qr='+encodeURIComponent(slug);
+let image='';
+try{image=await QRCode.toDataURL(target,{width:900,margin:2,errorCorrectionLevel:'M'});}catch(err){alert('No se pudo generar el QR: '+(err.message||err));return}
+const nombre=data.nombre||data.oficina||'Oficina';
+const area=data.area||data.areas?.nombre||'';
+const sede=data.sede||data.sedes?.nombre||'Edificio Municipal';
+app.innerHTML='<div class="qr-sheet" id="printarea"><div style="font-size:16px;font-weight:900">MUNICIPALIDAD DE SANTO TOMÉ</div><div style="font-size:14px;margin-top:3px">Control Patrimonial</div><div class="qr-office">'+e(nombre)+'</div>'+(area?'<div class="qr-area">'+e(area)+'</div>':'')+'<div style="margin-top:5px">'+e(sede)+'</div><img src="'+image+'" alt="QR de '+e(nombre)+'"><div class="qr-note">Escanee este código para consultar el inventario actualizado de esta oficina.</div><div class="qr-url">'+e(target)+'</div></div><div class="row no-print" style="justify-content:center;margin:12px auto;max-width:700px"><button id="printqr" class="btn green">Imprimir / Guardar PDF</button><a id="saveqr" class="btn blue" style="text-decoration:none" download="QR-'+e(nombre).replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _-]/g,'')+'.png" href="'+image+'">Guardar imagen QR</a><button id="openqr" class="btn ghost">Abrir inventario</button><button id="backqr" class="btn ghost">Volver</button></div>';
+document.getElementById('printqr').onclick=()=>window.print();
+document.getElementById('openqr').onclick=()=>location.href=target;
+document.getElementById('backqr').onclick=()=>backFn?backFn():pub();
+}
 async function home(){
 if(!session||!profile||!profile.activo){
 app.innerHTML='<div class="hero"><small>SISTEMA PATRIMONIAL</small><h2>Edificio Municipal</h2><div>Inventario y relevamientos</div></div><div class="card"><div class="title">Acceso al sistema</div><div class="muted" style="margin:6px 0 12px">El inventario público se abre desde el QR de cada oficina. El personal autorizado puede ingresar al panel general.</div><button id="in" class="btn blue" style="width:100%">Acceso personal</button></div>';
@@ -63,8 +79,9 @@ const totalReg=Object.values(counts).reduce((a,x)=>a+x.r,0),totalUni=Object.valu
 app.innerHTML='<div class="hero"><small>PANEL GENERAL</small><h2>Edificio Municipal</h2><div>'+offices.length+' oficinas / sectores · '+totalReg+' registros · '+totalUni+' unidades</div></div><div class="between"><input id="hq" class="search" style="flex:1" placeholder="Buscar oficina o área..."><button id="out" class="btn ghost">Salir</button></div><div id="offices"></div><div class="muted" style="text-align:center;margin:15px">Sesión: '+e(profile.nombre||profile.email||session.user.email)+' · '+e(profile.rol||'usuario')+'</div>';
 function drawHome(t=''){
 t=t.toLowerCase();
-document.getElementById('offices').innerHTML=offices.filter(o=>JSON.stringify(o).toLowerCase().includes(t)).map(o=>{const c=counts[o.id]||{r:0,u:0};const area=o.areas?.nombre||'';return '<div class="item"><div class="between"><div><div class="ititle">'+e(o.nombre)+'</div><div class="isub">'+e(area)+'</div></div><span class="pill">'+c.r+' bienes</span></div>'+(o.referencia?'<div class="isub">'+e(o.referencia)+'</div>':'')+'<button class="btn green" data-open="'+e(o.slug_qr)+'" style="width:100%;margin-top:10px">Abrir inventario / relevamiento</button></div>'}).join('')||'<div class="card muted">No se encontraron oficinas.</div>';
+document.getElementById('offices').innerHTML=offices.filter(o=>JSON.stringify(o).toLowerCase().includes(t)).map(o=>{const c=counts[o.id]||{r:0,u:0};const area=o.areas?.nombre||'';return '<div class="item"><div class="between"><div><div class="ititle">'+e(o.nombre)+'</div><div class="isub">'+e(area)+'</div></div><span class="pill">'+c.r+' bienes</span></div>'+(o.referencia?'<div class="isub">'+e(o.referencia)+'</div>':'')+'<div class="actions"><button class="btn green" data-open="'+e(o.slug_qr)+'">Abrir inventario / relevamiento</button><button class="btn blue" data-qr="'+e(o.slug_qr)+'">Ver QR / Imprimir</button></div></div>'}).join('')||'<div class="card muted">No se encontraron oficinas.</div>';
 document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>location.href=location.origin+location.pathname+'?qr='+encodeURIComponent(b.dataset.open));
+document.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{const o=offices.find(x=>x.slug_qr===b.dataset.qr);if(o)showOfficeQR({nombre:o.nombre,area:o.areas?.nombre||'',sede:o.sedes?.nombre||'Edificio Municipal',slug_qr:o.slug_qr},()=>home())});
 }
 drawHome();
 document.getElementById('hq').oninput=ev=>drawHome(ev.target.value);
@@ -78,7 +95,7 @@ const d=r.data,list=d.bienes||[];
 app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+
 (msg?'<div class="ok">'+e(msg)+'</div>':'')+
 '<div class="between"><input id="q" class="search" style="flex:1" placeholder="Buscar en esta oficina..."><div class="row">'+
-(session?'<button id="panel" class="btn ghost">Panel del edificio</button>':'')+
+(session?'<button id="panel" class="btn ghost">Panel del edificio</button><button id="qrview" class="btn blue">Ver QR / Imprimir</button>':'')+
 (session&&canEdit()?'<button id="control" class="btn green">Iniciar relevamiento</button>':'')+
 (session?'<button id="out" class="btn ghost">Salir</button>':'<button id="in" class="btn blue">Acceso personal</button>')+
 '</div></div><div id="list"></div><div class="muted" style="text-align:center;margin:15px">'+
@@ -95,6 +112,7 @@ draw();
 document.getElementById('q').oninput=ev=>draw(ev.target.value);
 if(document.getElementById('in'))document.getElementById('in').onclick=login;
 if(document.getElementById('panel'))document.getElementById('panel').onclick=()=>location.href=location.origin+location.pathname;
+if(document.getElementById('qrview'))document.getElementById('qrview').onclick=()=>showOfficeQR({nombre:d.oficina,area:d.area,sede:d.sede,slug_qr:qr},()=>pub());
 if(document.getElementById('out'))document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;pub()};
 if(document.getElementById('control'))document.getElementById('control').onclick=startRel;
 }
@@ -171,7 +189,7 @@ items=r.data||[];
 }
 function it(id){return items.find(x=>x.bien_id===id)||{resultado:'pendiente'}}
 function renderRel(){
-app.innerHTML='<div class="hero"><small>RELEVAMIENTO EN CURSO</small><h2>'+e(office.nombre)+'</h2><small>'+e(profile.nombre||profile.email)+'</small></div><div class="title">Bienes de esta oficina</div><div id="cur"></div><div class="title" style="margin-top:18px">Pendientes de ubicar de esta Dirección ('+pending.length+')</div><div class="muted">Marcá “Está acá” solamente si lo verificás físicamente.</div><div id="pen"></div><div class="card"><div class="ititle">¿Encontraste algo que no figura?</div><button id="new" class="btn blue" style="width:100%;margin-top:8px">Bien nuevo detectado</button></div><div class="row"><button id="back" class="btn ghost">Inventario</button><button id="finish" class="btn green" style="flex:1">Finalizar relevamiento</button></div>';
+app.innerHTML='<div class="hero"><small>RELEVAMIENTO EN CURSO</small><h2>'+e(office.nombre)+'</h2><small>'+e(profile.nombre||profile.email)+'</small></div><div class="title">Bienes de esta oficina</div><div id="cur"></div><div class="title" style="margin-top:18px">Pendientes de ubicar de esta Dirección ('+pending.length+')</div><div class="muted">Marcá “Está acá” solamente si lo verificás físicamente.</div><div id="pen"></div><div class="card"><div class="ititle">¿Encontraste algo que no figura?</div><button id="new" class="btn blue" style="width:100%;margin-top:8px">Bien nuevo detectado</button></div><div class="row"><button id="back" class="btn ghost">Inventario</button><button id="relqr" class="btn blue">QR de esta oficina</button><button id="finish" class="btn green" style="flex:1">Finalizar relevamiento</button></div>';
 document.getElementById('cur').innerHTML=current.map(g=>
 '<div class="item"><div class="between"><div><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div></div><span class="pill">'+e(it(g.id).resultado)+'</span></div><div class="actions"><button class="btn green" data-f="'+g.id+'">Encontrado</button><button class="btn red" data-m="'+g.id+'">Faltante</button><button class="btn orange" data-o="'+g.id+'">Observación</button><button class="btn ghost" data-move="'+g.id+'">Mover a otra oficina</button></div></div>'
 ).join('')||'<div class="card muted">Todavía no hay bienes asignados.</div>';
@@ -185,6 +203,7 @@ document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>moveGood(b.dat
 document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>here(b.dataset.h));
 document.getElementById('new').onclick=newGood;
 document.getElementById('back').onclick=()=>pub();
+document.getElementById('relqr').onclick=()=>showOfficeQR({nombre:office.nombre,area:'',sede:'Edificio Municipal',slug_qr:office.slug_qr},()=>renderRel());
 document.getElementById('finish').onclick=finish;
 }
 async function mark(id,res,extra={}){
