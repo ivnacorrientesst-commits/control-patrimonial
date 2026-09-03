@@ -12,17 +12,21 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;backgrou
 .wrap{max-width:900px;margin:auto;padding:12px}
 .hero,.card,.item{background:#fff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 3px 12px #0001}
 .hero{background:linear-gradient(135deg,#087f5b,#12b886);color:white}.hero h2{margin:4px 0}
-.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:800;cursor:pointer}
-.green{background:#087f5b;color:#fff}.blue{background:#1971c2;color:#fff}.red{background:#d9480f;color:#fff}.orange{background:#f08c00;color:#fff}.ghost{background:#edf2f4;color:#263238}
+.btn{border:0;border-radius:11px;padding:11px 13px;font-weight:800;cursor:pointer;text-decoration:none;text-align:center}
+.green{background:#087f5b;color:#fff}.blue{background:#1971c2;color:#fff}.red{background:#d9480f;color:#fff}.orange{background:#f08c00;color:#fff}.purple{background:#7048e8;color:#fff}.ghost{background:#edf2f4;color:#263238}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .search,input,select,textarea{width:100%;padding:12px;border:1px solid #cfd8dc;border-radius:11px;font:inherit;background:#fff}
-textarea{min-height:80px;resize:vertical}.muted{color:#667085;font-size:13px}.title{font-size:20px;font-weight:900}.ititle{font-weight:850}.isub{font-size:13px;color:#667085;margin-top:3px}
+textarea{min-height:100px;resize:vertical}.muted{color:#667085;font-size:13px}.title{font-size:20px;font-weight:900}.ititle{font-weight:850}.isub{font-size:13px;color:#667085;margin-top:3px}
 .pill{display:inline-block;border-radius:999px;padding:5px 8px;background:#e6fcf5;color:#087f5b;font-size:12px;font-weight:800;margin:3px 2px}
 .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.actions .btn{flex:1 1 120px}
 .login{max-width:420px;margin:7vh auto;background:white;border-radius:18px;padding:20px;box-shadow:0 5px 18px #0001}.field{margin:12px 0}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:5px}
-.error{background:#fff0f0;color:#b42318;border:1px solid #ffc9c9;padding:10px;border-radius:10px;margin:10px 0}.ok{background:#ebfbee;color:#2b8a3e;border:1px solid #b2f2bb;padding:10px;border-radius:10px;margin:10px 0}
-.qr-sheet{background:#fff;border-radius:18px;padding:24px;text-align:center;max-width:700px;margin:10px auto;box-shadow:0 3px 12px #0001}.qr-sheet img{width:min(72vw,360px);height:auto;image-rendering:pixelated}.qr-office{font-size:28px;font-weight:900;margin:12px 0 4px}.qr-area{font-size:18px;font-weight:700}.qr-note{margin:14px auto 0;max-width:520px;font-size:16px}.qr-url{font-size:11px;color:#667085;word-break:break-all;margin-top:12px}@media print{body{background:#fff}.top,.no-print{display:none!important}.wrap{max-width:none;padding:0}.qr-sheet{box-shadow:none;border-radius:0;max-width:none;margin:0;padding:18mm 14mm;min-height:277mm;display:flex;flex-direction:column;align-items:center;justify-content:center}.qr-sheet img{width:100mm}.qr-office{font-size:26pt}.qr-area{font-size:16pt}.qr-note{font-size:14pt}.qr-url{font-size:8pt}}
-@media(max-width:650px){.wrap{padding:9px}.btn{padding:12px}.actions .btn{flex:1 1 45%}}
+.error{background:#fff0f0;color:#b42318;border:1px solid #ffc9c9;padding:10px;border-radius:10px;margin:10px 0}.ok{background:#ebfbee;color:#2b8a3e;border:1px solid #b2f2bb;padding:10px;border-radius:10px;margin:10px 0}.hint{background:#f8f9fa;border:1px dashed #adb5bd;padding:10px;border-radius:10px;font-size:13px;color:#495057}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-top:10px}.photo{background:#fff;border-radius:13px;padding:7px;box-shadow:0 2px 9px #0001}.photo img{width:100%;height:170px;object-fit:cover;border-radius:9px;background:#eee;cursor:zoom-in}
+.busy{position:fixed;inset:0;background:#0009;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;z-index:999}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:2000;display:flex;align-items:center;justify-content:center;padding:14px}.lightbox img{max-width:96vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 30px #000;cursor:zoom-out}.lightbox-close{position:fixed;top:12px;right:12px;border:0;background:#fff;color:#111;border-radius:999px;width:44px;height:44px;font-size:25px;font-weight:900;cursor:pointer}.lightbox-note{position:fixed;bottom:12px;left:12px;right:12px;color:#fff;text-align:center;font-size:13px}
+.qr-sheet{background:#fff;border-radius:18px;padding:24px;text-align:center;max-width:700px;margin:10px auto;box-shadow:0 3px 12px #0001}.qr-sheet img{width:min(72vw,360px);height:auto;image-rendering:pixelated}.qr-office{font-size:28px;font-weight:900;margin:12px 0 4px}.qr-area{font-size:18px;font-weight:700}.qr-note{margin:14px auto 0;max-width:520px;font-size:16px}.qr-url{font-size:11px;color:#667085;word-break:break-all;margin-top:12px}
+@media print{body{background:#fff}.top,.no-print{display:none!important}.wrap{max-width:none;padding:0}.qr-sheet{box-shadow:none;border-radius:0;max-width:none;margin:0;padding:18mm 14mm;min-height:277mm;display:flex;flex-direction:column;align-items:center;justify-content:center}.qr-sheet img{width:100mm}.qr-office{font-size:26pt}.qr-area{font-size:16pt}.qr-note{font-size:14pt}.qr-url{font-size:8pt}}
+@media(max-width:650px){.wrap{padding:9px}.btn{padding:12px}.actions .btn{flex:1 1 45%}.photos{grid-template-columns:repeat(2,minmax(0,1fr))}.photo img{height:145px}}
 </style>
 </head>
 <body>
@@ -33,242 +37,45 @@ import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.112.2';
 import QRCode from 'https://esm.sh/qrcode@1.5.4';
 const SUPABASE_URL='https://jqbeweclwqquevfpycyh.supabase.co';
 const PUBLISHABLE_KEY='sb_publishable_pmrA8WStSO7tYb9yEeYMQQ_dQiDNIFm';
+const BUCKET='patrimonio-fotos';
 const db=createClient(SUPABASE_URL,PUBLISHABLE_KEY);
 const app=document.getElementById('app');
 const qr=new URLSearchParams(location.search).get('qr');
-let session=null,profile=null,office=null,current=[],pending=[],rel=null,items=[];
+let session=null,profile=null,office=null,current=[],pending=[],rel=null,items=[],officePhotos=[],goodPhotos={};
 const e=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-async function sess(){
-const s=await db.auth.getSession();
-session=s.data.session||null;
-if(!session){profile=null;return}
-const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',session.user.id).single();
-profile=p.data||null;
-}
+function busy(t='Procesando...'){const d=document.createElement('div');d.className='busy';d.id='busy';d.textContent=t;document.body.appendChild(d)}
+function unbusy(){document.getElementById('busy')?.remove()}
+function openLightbox(url,desc=''){const d=document.createElement('div');d.className='lightbox';d.innerHTML='<button class="lightbox-close">×</button><img src="'+e(url)+'"><div class="lightbox-note">'+e(desc||'Tocá la imagen o la X para cerrar')+'</div>';const close=()=>d.remove();d.querySelector('button').onclick=close;d.querySelector('img').onclick=close;d.onclick=ev=>{if(ev.target===d)close()};document.body.appendChild(d)}
+async function sess(){const s=await db.auth.getSession();session=s.data.session||null;if(!session){profile=null;return}const p=await db.from('profiles').select('id,email,nombre,rol,activo').eq('id',session.user.id).single();profile=p.data||null}
 function canEdit(){return profile&&profile.activo&&['admin','operador','relevador'].includes(profile.rol)}
-async function showOfficeQR(data,backFn){
-const slug=data.slug_qr||qr;
-if(!slug){alert('Esta oficina todavía no tiene QR asignado.');return}
-const target=location.origin+location.pathname+'?qr='+encodeURIComponent(slug);
-let image='';
-try{image=await QRCode.toDataURL(target,{width:900,margin:2,errorCorrectionLevel:'M'});}catch(err){alert('No se pudo generar el QR: '+(err.message||err));return}
-const nombre=data.nombre||data.oficina||'Oficina';
-const area=data.area||data.areas?.nombre||'';
-const sede=data.sede||data.sedes?.nombre||'Edificio Municipal';
-app.innerHTML='<div class="qr-sheet" id="printarea"><div style="font-size:16px;font-weight:900">MUNICIPALIDAD DE SANTO TOMÉ</div><div style="font-size:14px;margin-top:3px">Control Patrimonial</div><div class="qr-office">'+e(nombre)+'</div>'+(area?'<div class="qr-area">'+e(area)+'</div>':'')+'<div style="margin-top:5px">'+e(sede)+'</div><img src="'+image+'" alt="QR de '+e(nombre)+'"><div class="qr-note">Escanee este código para consultar el inventario actualizado de esta oficina.</div><div class="qr-url">'+e(target)+'</div></div><div class="row no-print" style="justify-content:center;margin:12px auto;max-width:700px"><button id="printqr" class="btn green">Imprimir / Guardar PDF</button><a id="saveqr" class="btn blue" style="text-decoration:none" download="QR-'+e(nombre).replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _-]/g,'')+'.png" href="'+image+'">Guardar imagen QR</a><button id="openqr" class="btn ghost">Abrir inventario</button><button id="backqr" class="btn ghost">Volver</button></div>';
-document.getElementById('printqr').onclick=()=>window.print();
-document.getElementById('openqr').onclick=()=>location.href=target;
-document.getElementById('backqr').onclick=()=>backFn?backFn():pub();
-}
-async function home(){
-if(!session||!profile||!profile.activo){
-app.innerHTML='<div class="hero"><small>SISTEMA PATRIMONIAL</small><h2>Edificio Municipal</h2><div>Inventario y relevamientos</div></div><div class="card"><div class="title">Acceso al sistema</div><div class="muted" style="margin:6px 0 12px">El inventario público se abre desde el QR de cada oficina. El personal autorizado puede ingresar al panel general.</div><button id="in" class="btn blue" style="width:100%">Acceso personal</button></div>';
-document.getElementById('in').onclick=login;
-return;
-}
-const ro=await db.from('oficinas').select('id,nombre,slug_qr,referencia,area_id,areas(nombre),sedes!inner(nombre)').eq('activa',true).eq('sedes.nombre','Edificio Municipal').order('nombre');
-if(ro.error){app.innerHTML='<div class="error">No se pudieron cargar las oficinas: '+e(ro.error.message)+'</div>';return}
-const offices=ro.data||[];
-let counts={};
-if(offices.length){
-const ids=offices.map(o=>o.id);
-const rb=await db.from('bienes').select('oficina_id,cantidad').eq('activo',true).in('oficina_id',ids);
-if(!rb.error)(rb.data||[]).forEach(b=>{if(!counts[b.oficina_id])counts[b.oficina_id]={r:0,u:0};counts[b.oficina_id].r++;counts[b.oficina_id].u+=Number(b.cantidad||1)});
-}
-const totalReg=Object.values(counts).reduce((a,x)=>a+x.r,0),totalUni=Object.values(counts).reduce((a,x)=>a+x.u,0);
-app.innerHTML='<div class="hero"><small>PANEL GENERAL</small><h2>Edificio Municipal</h2><div>'+offices.length+' oficinas / sectores · '+totalReg+' registros · '+totalUni+' unidades</div></div><div class="between"><input id="hq" class="search" style="flex:1" placeholder="Buscar oficina o área..."><button id="out" class="btn ghost">Salir</button></div><div id="offices"></div><div class="muted" style="text-align:center;margin:15px">Sesión: '+e(profile.nombre||profile.email||session.user.email)+' · '+e(profile.rol||'usuario')+'</div>';
-function drawHome(t=''){
-t=t.toLowerCase();
-document.getElementById('offices').innerHTML=offices.filter(o=>JSON.stringify(o).toLowerCase().includes(t)).map(o=>{const c=counts[o.id]||{r:0,u:0};const area=o.areas?.nombre||'';return '<div class="item"><div class="between"><div><div class="ititle">'+e(o.nombre)+'</div><div class="isub">'+e(area)+'</div></div><span class="pill">'+c.r+' bienes</span></div>'+(o.referencia?'<div class="isub">'+e(o.referencia)+'</div>':'')+'<div class="actions"><button class="btn green" data-open="'+e(o.slug_qr)+'">Abrir inventario / relevamiento</button><button class="btn blue" data-qr="'+e(o.slug_qr)+'">Ver QR / Imprimir</button></div></div>'}).join('')||'<div class="card muted">No se encontraron oficinas.</div>';
-document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>location.href=location.origin+location.pathname+'?qr='+encodeURIComponent(b.dataset.open));
-document.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{const o=offices.find(x=>x.slug_qr===b.dataset.qr);if(o)showOfficeQR({nombre:o.nombre,area:o.areas?.nombre||'',sede:o.sedes?.nombre||'Edificio Municipal',slug_qr:o.slug_qr},()=>home())});
-}
-drawHome();
-document.getElementById('hq').oninput=ev=>drawHome(ev.target.value);
-document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;home()};
-}
-async function pub(msg=''){
-if(!qr){await home();return}
-const r=await db.rpc('inventario_publico_por_oficina_qr',{p_slug:qr});
-if(r.error||!r.data){app.innerHTML='<div class="error">QR no válido o la oficina no está disponible.</div>';return}
-const d=r.data,list=d.bienes||[];
-app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+
-(msg?'<div class="ok">'+e(msg)+'</div>':'')+
-'<div class="between"><input id="q" class="search" style="flex:1" placeholder="Buscar en esta oficina..."><div class="row">'+
-(session?'<button id="panel" class="btn ghost">Panel del edificio</button><button id="qrview" class="btn blue">Ver QR / Imprimir</button>':'')+
-(session&&canEdit()?'<button id="control" class="btn green">Iniciar relevamiento</button>':'')+
-(session?'<button id="out" class="btn ghost">Salir</button>':'<button id="in" class="btn blue">Acceso personal</button>')+
-'</div></div><div id="list"></div><div class="muted" style="text-align:center;margin:15px">'+
-(session?'Sesión: '+e(profile?.nombre||profile?.email||session.user.email)+' · '+e(profile?.rol||'usuario'):'Consulta pública · solo lectura')+'</div>';
-function draw(t=''){
-t=t.toLowerCase();
-document.getElementById('list').innerHTML=list.filter(x=>JSON.stringify(x).toLowerCase().includes(t)).map(x=>
-'<div class="item"><div class="ititle">'+e(x.descripcion||'Bien')+'</div><div class="isub">'+e([x.codigo?('Código '+x.codigo):'',x.marca,x.modelo,x.color].filter(Boolean).join(' · '))+'</div>'+
-(x.estado?'<span class="pill">'+e(x.estado)+'</span>':'')+
-(x.observaciones?'<div class="isub">Obs.: '+e(x.observaciones)+'</div>':'')+'</div>'
-).join('')||'<div class="card muted">No hay bienes asignados a esta oficina todavía.</div>';
-}
-draw();
-document.getElementById('q').oninput=ev=>draw(ev.target.value);
-if(document.getElementById('in'))document.getElementById('in').onclick=login;
-if(document.getElementById('panel'))document.getElementById('panel').onclick=()=>location.href=location.origin+location.pathname;
-if(document.getElementById('qrview'))document.getElementById('qrview').onclick=()=>showOfficeQR({nombre:d.oficina,area:d.area,sede:d.sede,slug_qr:qr},()=>pub());
-if(document.getElementById('out'))document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;pub()};
-if(document.getElementById('control'))document.getElementById('control').onclick=startRel;
-}
-function login(){
-app.innerHTML='<div class="login"><div class="title">Acceso al sistema</div><p class="muted">Solo personal autorizado puede modificar.</p><div id="err"></div><form id="f"><div class="field"><label>Correo</label><input id="em" type="email" autocomplete="username" required></div><div class="field"><label>Contraseña</label><input id="pw" type="password" autocomplete="current-password" required></div><button class="btn green" style="width:100%">Ingresar</button></form><button id="forgot" class="btn blue" style="width:100%;margin-top:8px">Olvidé mi contraseña</button><button id="back" class="btn ghost" style="width:100%;margin-top:8px">Volver</button></div>';
-document.getElementById('f').onsubmit=async ev=>{
-ev.preventDefault();
-const r=await db.auth.signInWithPassword({email:document.getElementById('em').value.trim(),password:document.getElementById('pw').value});
-if(r.error){document.getElementById('err').innerHTML='<div class="error">Correo o contraseña incorrectos.</div>';return}
-await sess();pub();
-};
-document.getElementById('forgot').onclick=async()=>{
-const email=document.getElementById('em').value.trim();
-if(!email){document.getElementById('err').innerHTML='<div class="error">Escribí primero tu correo arriba.</div>';return}
-if(qr)localStorage.setItem('patrimonio_recovery_qr',qr);
-const redirectTo=location.origin+location.pathname;
-const r=await db.auth.resetPasswordForEmail(email,{redirectTo});
-if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo enviar el correo: '+e(r.error.message)+'</div>';return}
-document.getElementById('err').innerHTML='<div class="ok">Te enviamos un correo para cambiar la contraseña. Revisá también Spam o Correo no deseado.</div>';
-};
-document.getElementById('back').onclick=()=>pub();
-}
-function passwordRecovery(){
-app.innerHTML='<div class="login"><div class="title">Crear contraseña nueva</div><p class="muted">Elegí una contraseña nueva para tu usuario de Control Patrimonial.</p><div id="err"></div><form id="rf"><div class="field"><label>Nueva contraseña</label><input id="np1" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label>Repetir contraseña</label><input id="np2" type="password" autocomplete="new-password" minlength="8" required></div><button class="btn green" style="width:100%">Guardar contraseña</button></form></div>';
-document.getElementById('rf').onsubmit=async ev=>{
-ev.preventDefault();
-const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;
-if(p1.length<8){document.getElementById('err').innerHTML='<div class="error">Usá al menos 8 caracteres.</div>';return}
-if(p1!==p2){document.getElementById('err').innerHTML='<div class="error">Las contraseñas no coinciden.</div>';return}
-const r=await db.auth.updateUser({password:p1});
-if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo cambiar: '+e(r.error.message)+'</div>';return}
-const saved=localStorage.getItem('patrimonio_recovery_qr')||'';
-localStorage.removeItem('patrimonio_recovery_qr');
-await db.auth.signOut();
-const target=location.origin+location.pathname+(saved?'?qr='+encodeURIComponent(saved):'');
-location.replace(target);
-};
-}
-async function loadOffice(){
-const o=await db.from('oficinas').select('id,area_id,nombre,slug_qr').eq('slug_qr',qr).eq('activa',true).single();
-if(o.error)throw o.error;
-office=o.data;
-const r=await Promise.all([
-db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('oficina_id',office.id).order('descripcion'),
-db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('area_responsable_id',office.area_id).is('oficina_id',null).order('descripcion')
-]);
-current=r[0].data||[];
-pending=r[1].data||[];
-}
-async function startRel(){
-if(!canEdit()){login();return}
-try{
-await loadOffice();
-let q=await db.from('relevamientos').select('id,fecha_inicio').eq('oficina_id',office.id).eq('realizado_por',session.user.id).eq('estado','abierto').maybeSingle();
-rel=q.data;
-if(!rel){
-const c=await db.from('relevamientos').insert({oficina_id:office.id,realizado_por:session.user.id,estado:'abierto'}).select('id,fecha_inicio').single();
-if(c.error)throw c.error;
-rel=c.data;
-}
-if(current.length){
-await db.from('relevamiento_items').upsert(current.map(g=>({relevamiento_id:rel.id,bien_id:g.id,resultado:'pendiente'})),{onConflict:'relevamiento_id,bien_id',ignoreDuplicates:true});
-}
-await loadItems();
-renderRel();
-}catch(err){
-app.innerHTML='<div class="error">No se pudo iniciar: '+e(err.message||err)+'</div><button id="b" class="btn ghost">Volver</button>';
-document.getElementById('b').onclick=()=>pub();
-}
-}
-async function loadItems(){
-const r=await db.from('relevamiento_items').select('bien_id,resultado,observaciones').eq('relevamiento_id',rel.id);
-items=r.data||[];
-}
+function pickPhoto(){return new Promise(r=>{const i=document.createElement('input');i.type='file';i.accept='image/*';i.setAttribute('capture','environment');i.style.display='none';document.body.appendChild(i);i.onchange=()=>{const f=i.files?.[0]||null;i.remove();r(f)};i.click()})}
+async function compressPhoto(file){const bmp=await createImageBitmap(file,{imageOrientation:'from-image'});const max=1600,s=Math.min(1,max/Math.max(bmp.width,bmp.height)),w=Math.round(bmp.width*s),h=Math.round(bmp.height*s),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d',{alpha:false}).drawImage(bmp,0,0,w,h);bmp.close?.();let q=.76,b=null;for(let x=0;x<4;x++){b=await new Promise(r=>c.toBlob(r,'image/webp',q));if(b&&b.size<1500*1024)break;q-=.1}if(!b)b=await new Promise(r=>c.toBlob(r,'image/jpeg',.75));if(!b)throw Error('No se pudo comprimir la foto');return b}
+async function uploadPhoto(folder){const f=await pickPhoto();if(!f)return null;busy('Comprimiendo y subiendo foto...');try{const b=await compressPhoto(f),ext=b.type==='image/webp'?'webp':'jpg',path=folder+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,10)+'.'+ext,u=await db.storage.from(BUCKET).upload(path,b,{contentType:b.type,upsert:false});if(u.error)throw u.error;return{path,size:b.size,original:f.size}}finally{unbusy()}}
+async function signedPhoto(path){const r=await db.storage.from(BUCKET).createSignedUrl(path,3600);return r.data?.signedUrl||''}
+async function showOfficeQR(data,backFn){const slug=data.slug_qr||qr;if(!slug){alert('Esta oficina todavía no tiene QR asignado.');return}const target=location.origin+location.pathname+'?qr='+encodeURIComponent(slug);let image='';try{image=await QRCode.toDataURL(target,{width:900,margin:2,errorCorrectionLevel:'M'});}catch(err){alert('No se pudo generar el QR: '+(err.message||err));return}const nombre=data.nombre||data.oficina||'Oficina',area=data.area||data.areas?.nombre||'',sede=data.sede||data.sedes?.nombre||'Edificio Municipal';app.innerHTML='<div class="qr-sheet" id="printarea"><div style="font-size:16px;font-weight:900">MUNICIPALIDAD DE SANTO TOMÉ</div><div style="font-size:14px;margin-top:3px">Control Patrimonial</div><div class="qr-office">'+e(nombre)+'</div>'+(area?'<div class="qr-area">'+e(area)+'</div>':'')+'<div style="margin-top:5px">'+e(sede)+'</div><img src="'+image+'" alt="QR de '+e(nombre)+'"><div class="qr-note">Escanee este código para consultar el inventario actualizado de esta oficina.</div><div class="qr-url">'+e(target)+'</div></div><div class="row no-print" style="justify-content:center;margin:12px auto;max-width:700px"><button id="printqr" class="btn green">Imprimir / Guardar PDF</button><a id="saveqr" class="btn blue" download="QR-'+e(nombre).replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _-]/g,'')+'.png" href="'+image+'">Guardar imagen QR</a><button id="openqr" class="btn ghost">Abrir inventario</button><button id="backqr" class="btn ghost">Volver</button></div>';document.getElementById('printqr').onclick=()=>window.print();document.getElementById('openqr').onclick=()=>location.href=target;document.getElementById('backqr').onclick=()=>backFn?backFn():pub()}
+async function home(){if(!session||!profile||!profile.activo){app.innerHTML='<div class="hero"><small>SISTEMA PATRIMONIAL</small><h2>Edificio Municipal</h2><div>Inventario y relevamientos</div></div><div class="card"><div class="title">Acceso al sistema</div><div class="muted" style="margin:6px 0 12px">El inventario público se abre desde el QR de cada oficina. El personal autorizado puede ingresar al panel general.</div><button id="in" class="btn blue" style="width:100%">Acceso personal</button></div>';document.getElementById('in').onclick=login;return}const ro=await db.from('oficinas').select('id,nombre,slug_qr,referencia,area_id,areas(nombre),sedes!inner(nombre)').eq('activa',true).eq('sedes.nombre','Edificio Municipal').order('nombre');if(ro.error){app.innerHTML='<div class="error">No se pudieron cargar las oficinas: '+e(ro.error.message)+'</div>';return}const offices=ro.data||[];let counts={};if(offices.length){const ids=offices.map(o=>o.id),rb=await db.from('bienes').select('oficina_id,cantidad').eq('activo',true).in('oficina_id',ids);if(!rb.error)(rb.data||[]).forEach(b=>{if(!counts[b.oficina_id])counts[b.oficina_id]={r:0,u:0};counts[b.oficina_id].r++;counts[b.oficina_id].u+=Number(b.cantidad||1)})}const totalReg=Object.values(counts).reduce((a,x)=>a+x.r,0),totalUni=Object.values(counts).reduce((a,x)=>a+x.u,0);app.innerHTML='<div class="hero"><small>PANEL GENERAL</small><h2>Edificio Municipal</h2><div>'+offices.length+' oficinas / sectores · '+totalReg+' registros · '+totalUni+' unidades</div></div><div class="between"><input id="hq" class="search" style="flex:1" placeholder="Buscar oficina o área..."><button id="out" class="btn ghost">Salir</button></div><div id="offices"></div><div class="muted" style="text-align:center;margin:15px">Sesión: '+e(profile.nombre||profile.email||session.user.email)+' · '+e(profile.rol||'usuario')+'</div>';function drawHome(t=''){t=t.toLowerCase();document.getElementById('offices').innerHTML=offices.filter(o=>JSON.stringify(o).toLowerCase().includes(t)).map(o=>{const c=counts[o.id]||{r:0,u:0},area=o.areas?.nombre||'';return '<div class="item"><div class="between"><div><div class="ititle">'+e(o.nombre)+'</div><div class="isub">'+e(area)+'</div></div><span class="pill">'+c.r+' bienes</span></div>'+(o.referencia?'<div class="isub">'+e(o.referencia)+'</div>':'')+'<div class="actions"><button class="btn green" data-open="'+e(o.slug_qr)+'">Abrir inventario / relevamiento</button><button class="btn blue" data-qr="'+e(o.slug_qr)+'">Ver QR / Imprimir</button></div></div>'}).join('')||'<div class="card muted">No se encontraron oficinas.</div>';document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>location.href=location.origin+location.pathname+'?qr='+encodeURIComponent(b.dataset.open));document.querySelectorAll('[data-qr]').forEach(b=>b.onclick=()=>{const o=offices.find(x=>x.slug_qr===b.dataset.qr);if(o)showOfficeQR({nombre:o.nombre,area:o.areas?.nombre||'',sede:o.sedes?.nombre||'Edificio Municipal',slug_qr:o.slug_qr},()=>home())})}drawHome();document.getElementById('hq').oninput=ev=>drawHome(ev.target.value);document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;home()}}
+async function pub(msg=''){if(!qr){await home();return}const r=await db.rpc('inventario_publico_por_oficina_qr',{p_slug:qr});if(r.error||!r.data){app.innerHTML='<div class="error">QR no válido o la oficina no está disponible.</div>';return}const d=r.data,list=d.bienes||[];app.innerHTML='<div class="hero"><small>INVENTARIO DE OFICINA</small><h2>'+e(d.oficina)+'</h2><div>'+e(d.sede||'')+'</div><small>'+e(d.area||'')+'</small><div style="margin-top:8px">'+e(d.total_registros)+' registros · '+e(d.total_unidades)+' unidades</div></div>'+(msg?'<div class="ok">'+e(msg)+'</div>':'')+'<div class="between"><input id="q" class="search" style="flex:1" placeholder="Buscar en esta oficina..."><div class="row">'+(session?'<button id="panel" class="btn ghost">Panel del edificio</button><button id="qrview" class="btn blue">Ver QR / Imprimir</button>':'')+(session&&canEdit()?'<button id="control" class="btn green">Iniciar relevamiento</button>':'')+(session?'<button id="out" class="btn ghost">Salir</button>':'<button id="in" class="btn blue">Acceso personal</button>')+'</div></div><div id="list"></div><div class="muted" style="text-align:center;margin:15px">'+(session?'Sesión: '+e(profile?.nombre||profile?.email||session.user.email)+' · '+e(profile?.rol||'usuario'):'Consulta pública · solo lectura')+'</div>';function draw(t=''){t=t.toLowerCase();document.getElementById('list').innerHTML=list.filter(x=>JSON.stringify(x).toLowerCase().includes(t)).map(x=>'<div class="item"><div class="ititle">'+e(x.descripcion||'Bien')+'</div><div class="isub">'+e([x.codigo?('Código '+x.codigo):'',x.marca,x.modelo,x.color].filter(Boolean).join(' · '))+'</div>'+(x.estado?'<span class="pill">'+e(x.estado)+'</span>':'')+(x.observaciones?'<div class="isub">Obs.: '+e(x.observaciones)+'</div>':'')+'</div>').join('')||'<div class="card muted">No hay bienes asignados a esta oficina todavía.</div>'}draw();document.getElementById('q').oninput=ev=>draw(ev.target.value);if(document.getElementById('in'))document.getElementById('in').onclick=login;if(document.getElementById('panel'))document.getElementById('panel').onclick=()=>location.href=location.origin+location.pathname;if(document.getElementById('qrview'))document.getElementById('qrview').onclick=()=>showOfficeQR({nombre:d.oficina,area:d.area,sede:d.sede,slug_qr:qr},()=>pub());if(document.getElementById('out'))document.getElementById('out').onclick=async()=>{await db.auth.signOut();session=null;profile=null;pub()};if(document.getElementById('control'))document.getElementById('control').onclick=startRel}
+function login(){app.innerHTML='<div class="login"><div class="title">Acceso al sistema</div><p class="muted">Solo personal autorizado puede modificar.</p><div id="err"></div><form id="f"><div class="field"><label>Correo</label><input id="em" type="email" autocomplete="username" required></div><div class="field"><label>Contraseña</label><input id="pw" type="password" autocomplete="current-password" required></div><button class="btn green" style="width:100%">Ingresar</button></form><button id="forgot" class="btn blue" style="width:100%;margin-top:8px">Olvidé mi contraseña</button><button id="back" class="btn ghost" style="width:100%;margin-top:8px">Volver</button></div>';document.getElementById('f').onsubmit=async ev=>{ev.preventDefault();const r=await db.auth.signInWithPassword({email:document.getElementById('em').value.trim(),password:document.getElementById('pw').value});if(r.error){document.getElementById('err').innerHTML='<div class="error">Correo o contraseña incorrectos.</div>';return}await sess();pub()};document.getElementById('forgot').onclick=async()=>{const email=document.getElementById('em').value.trim();if(!email){document.getElementById('err').innerHTML='<div class="error">Escribí primero tu correo arriba.</div>';return}if(qr)localStorage.setItem('patrimonio_recovery_qr',qr);const redirectTo=location.origin+location.pathname,r=await db.auth.resetPasswordForEmail(email,{redirectTo});if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo enviar el correo: '+e(r.error.message)+'</div>';return}document.getElementById('err').innerHTML='<div class="ok">Te enviamos un correo para cambiar la contraseña. Revisá también Spam o Correo no deseado.</div>'};document.getElementById('back').onclick=()=>pub()}
+function passwordRecovery(){app.innerHTML='<div class="login"><div class="title">Crear contraseña nueva</div><p class="muted">Elegí una contraseña nueva para tu usuario de Control Patrimonial.</p><div id="err"></div><form id="rf"><div class="field"><label>Nueva contraseña</label><input id="np1" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label>Repetir contraseña</label><input id="np2" type="password" autocomplete="new-password" minlength="8" required></div><button class="btn green" style="width:100%">Guardar contraseña</button></form></div>';document.getElementById('rf').onsubmit=async ev=>{ev.preventDefault();const p1=document.getElementById('np1').value,p2=document.getElementById('np2').value;if(p1.length<8){document.getElementById('err').innerHTML='<div class="error">Usá al menos 8 caracteres.</div>';return}if(p1!==p2){document.getElementById('err').innerHTML='<div class="error">Las contraseñas no coinciden.</div>';return}const r=await db.auth.updateUser({password:p1});if(r.error){document.getElementById('err').innerHTML='<div class="error">No se pudo cambiar: '+e(r.error.message)+'</div>';return}const saved=localStorage.getItem('patrimonio_recovery_qr')||'';localStorage.removeItem('patrimonio_recovery_qr');await db.auth.signOut();const target=location.origin+location.pathname+(saved?'?qr='+encodeURIComponent(saved):'');location.replace(target)}}
+async function loadOffice(){const o=await db.from('oficinas').select('id,area_id,nombre,slug_qr,areas(nombre),sedes(nombre)').eq('slug_qr',qr).eq('activa',true).single();if(o.error)throw o.error;office=o.data;const r=await Promise.all([db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('oficina_id',office.id).order('descripcion'),db.from('bienes').select('id,codigo,descripcion,marca,modelo,color,cantidad,oficina_id,area_responsable_id').eq('activo',true).eq('area_responsable_id',office.area_id).is('oficina_id',null).order('descripcion')]);current=r[0].data||[];pending=r[1].data||[];await loadPhotoMeta()}
+async function loadPhotoMeta(){officePhotos=[];goodPhotos={};const fo=await db.from('fotos_oficinas').select('id,ruta_storage,descripcion,es_principal,created_at').eq('oficina_id',office.id).order('created_at',{ascending:false});if(!fo.error)officePhotos=fo.data||[];if(current.length){const fg=await db.from('fotos_bienes').select('id,bien_id,ruta_storage,descripcion,es_principal,created_at').in('bien_id',current.map(x=>x.id)).order('created_at',{ascending:false});if(!fg.error)(fg.data||[]).forEach(x=>(goodPhotos[x.bien_id]??=[]).push(x))}}
+async function startRel(){if(!canEdit()){login();return}try{await loadOffice();let q=await db.from('relevamientos').select('id,fecha_inicio').eq('oficina_id',office.id).eq('realizado_por',session.user.id).eq('estado','abierto').maybeSingle();rel=q.data;if(!rel){const c=await db.from('relevamientos').insert({oficina_id:office.id,realizado_por:session.user.id,estado:'abierto'}).select('id,fecha_inicio').single();if(c.error)throw c.error;rel=c.data}if(current.length)await db.from('relevamiento_items').upsert(current.map(g=>({relevamiento_id:rel.id,bien_id:g.id,resultado:'pendiente'})),{onConflict:'relevamiento_id,bien_id',ignoreDuplicates:true});await loadItems();renderRel()}catch(err){app.innerHTML='<div class="error">No se pudo iniciar: '+e(err.message||err)+'</div><button id="b" class="btn ghost">Volver</button>';document.getElementById('b').onclick=()=>pub()}}
+async function loadItems(){const r=await db.from('relevamiento_items').select('bien_id,resultado,observaciones,foto_url').eq('relevamiento_id',rel.id);items=r.data||[]}
 function it(id){return items.find(x=>x.bien_id===id)||{resultado:'pendiente'}}
-function renderRel(){
-app.innerHTML='<div class="hero"><small>RELEVAMIENTO EN CURSO</small><h2>'+e(office.nombre)+'</h2><small>'+e(profile.nombre||profile.email)+'</small></div><div class="title">Bienes de esta oficina</div><div id="cur"></div><div class="title" style="margin-top:18px">Pendientes de ubicar de esta Dirección ('+pending.length+')</div><div class="muted">Marcá “Está acá” solamente si lo verificás físicamente.</div><div id="pen"></div><div class="card"><div class="ititle">¿Encontraste algo que no figura?</div><button id="new" class="btn blue" style="width:100%;margin-top:8px">Bien nuevo detectado</button></div><div class="row"><button id="back" class="btn ghost">Inventario</button><button id="relqr" class="btn blue">QR de esta oficina</button><button id="finish" class="btn green" style="flex:1">Finalizar relevamiento</button></div>';
-document.getElementById('cur').innerHTML=current.map(g=>
-'<div class="item"><div class="between"><div><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div></div><span class="pill">'+e(it(g.id).resultado)+'</span></div><div class="actions"><button class="btn green" data-f="'+g.id+'">Encontrado</button><button class="btn red" data-m="'+g.id+'">Faltante</button><button class="btn orange" data-o="'+g.id+'">Observación</button><button class="btn ghost" data-move="'+g.id+'">Mover a otra oficina</button></div></div>'
-).join('')||'<div class="card muted">Todavía no hay bienes asignados.</div>';
-document.getElementById('pen').innerHTML=pending.map(g=>
-'<div class="item"><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div><button class="btn blue" data-h="'+g.id+'" style="margin-top:8px;width:100%">Está en esta oficina</button></div>'
-).join('')||'<div class="card muted">No quedan pendientes.</div>';
-document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>mark(b.dataset.f,'encontrado'));
-document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>mark(b.dataset.m,'faltante'));
-document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>obs(b.dataset.o));
-document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>moveGood(b.dataset.move));
-document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>here(b.dataset.h));
-document.getElementById('new').onclick=newGood;
-document.getElementById('back').onclick=()=>pub();
-document.getElementById('relqr').onclick=()=>showOfficeQR({nombre:office.nombre,area:'',sede:'Edificio Municipal',slug_qr:office.slug_qr},()=>renderRel());
-document.getElementById('finish').onclick=finish;
-}
-async function mark(id,res,extra={}){
-const r=await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:res,oficina_observada_id:office.id,verificado_en:new Date().toISOString(),...extra},{onConflict:'relevamiento_id,bien_id'});
-if(r.error){alert(r.error.message);return}
-await loadItems();renderRel();
-}
-async function obs(id){const t=prompt('Observación:');if(t)await mark(id,'observado',{observaciones:t})}
-async function here(id){
-if(!confirm('¿Confirmás que este bien está físicamente en esta oficina?'))return;
-const u=await db.from('bienes').update({oficina_id:office.id}).eq('id',id);
-if(u.error){alert(u.error.message);return}
-await db.from('movimientos').insert({bien_id:id,oficina_destino_id:office.id,area_destino_id:office.area_id,motivo:'Asignado durante relevamiento',realizado_por:session.user.id});
-await loadOffice();
-await mark(id,'encontrado');
-}
-async function moveGood(id){
-const good=current.find(x=>x.id===id);
-if(!good){alert('No se encontró el bien en esta oficina.');return}
-const r=await db.from('oficinas').select('id,nombre,area_id,slug_qr').eq('activa',true).neq('id',office.id).order('nombre');
-if(r.error){alert('No se pudieron cargar las oficinas: '+r.error.message);return}
-const offices=r.data||[];
-if(!offices.length){
-alert('Todavía no hay otra oficina activa cargada. Cuando carguemos las demás oficinas, este botón permitirá hacer el traslado.');
-return;
-}
-app.innerHTML='<div class="hero"><small>MOVIMIENTO DE BIEN</small><h2>'+e(good.descripcion||'Bien')+'</h2><small>Origen: '+e(office.nombre)+'</small></div><div class="card"><div class="muted" style="margin-bottom:10px">Este movimiento cambia solamente la ubicación física. El área responsable del bien se mantiene.</div><form id="moveform"><div class="field"><label>Oficina destino</label><select id="dest" required><option value="">Elegí una oficina...</option>'+offices.map(o=>'<option value="'+e(o.id)+'">'+e(o.nombre)+'</option>').join('')+'</select></div><div class="field"><label>Motivo / detalle</label><textarea id="reason" placeholder="Ej.: traslado definitivo, préstamo interno, reorganización..."></textarea></div><button class="btn green" style="width:100%">Confirmar traslado</button></form><button id="cancelmove" class="btn ghost" style="width:100%;margin-top:8px">Cancelar</button></div>';
-document.getElementById('cancelmove').onclick=()=>renderRel();
-document.getElementById('moveform').onsubmit=async ev=>{
-ev.preventDefault();
-const destId=document.getElementById('dest').value;
-const dest=offices.find(o=>o.id===destId);
-const reason=document.getElementById('reason').value.trim();
-if(!dest)return;
-if(!confirm('¿Mover “'+(good.descripcion||'Bien')+'” de '+office.nombre+' a '+dest.nombre+'?'))return;
-const m=await db.rpc('mover_bien_oficina',{p_bien_id:id,p_oficina_destino_id:dest.id,p_motivo:reason||'Traslado entre oficinas'});
-if(m.error){alert('No se pudo mover el bien: '+m.error.message);return}
-const note='Movido a '+dest.nombre+(reason?' · '+reason:'');
-await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:'observado',observaciones:note,oficina_observada_id:office.id,verificado_en:new Date().toISOString()},{onConflict:'relevamiento_id,bien_id'});
-await loadOffice();
-await loadItems();
-renderRel();
-alert('Bien trasladado a '+dest.nombre+'. El movimiento quedó guardado en el historial.');
-};
-}
-async function newGood(){
-const d=prompt('Descripción del bien nuevo:');
-if(!d)return;
-const r=await db.from('relevamiento_novedades').insert({relevamiento_id:rel.id,tipo:'bien_nuevo',descripcion:d,datos:{oficina_id:office.id,oficina:office.nombre}});
-if(r.error)alert(r.error.message);else alert('Novedad registrada.');
-}
-async function finish(){
-await loadItems();
-const p=items.filter(x=>x.resultado==='pendiente').length;
-if(p&&!confirm('Quedan '+p+' bienes pendientes. Se marcarán faltantes. ¿Finalizar?'))return;
-if(p)await db.from('relevamiento_items').update({resultado:'faltante',verificado_en:new Date().toISOString()}).eq('relevamiento_id',rel.id).eq('resultado','pendiente');
-const r=await db.from('relevamientos').update({estado:'cerrado',fecha_cierre:new Date().toISOString()}).eq('id',rel.id);
-if(r.error){alert(r.error.message);return}
-rel=null;
-pub('Relevamiento finalizado y guardado.');
-}
-let recoveryShown=false;
-db.auth.onAuthStateChange((event,s)=>{if(event==='PASSWORD_RECOVERY'){recoveryShown=true;session=s;passwordRecovery()}});
-async function boot(){await new Promise(r=>setTimeout(r,250));if(recoveryShown)return;await sess();pub()}
-boot();
+async function addOfficePhoto(){const u=await uploadPhoto('oficinas/'+office.id);if(!u)return;const r=await db.from('fotos_oficinas').insert({oficina_id:office.id,ruta_storage:u.path,descripcion:'Foto general de la oficina',es_principal:officePhotos.length===0,subida_por:session.user.id});if(r.error){await db.storage.from(BUCKET).remove([u.path]);return alert(r.error.message)}alert('Foto guardada. Original: '+Math.round(u.original/1024)+' KB · subida: '+Math.round(u.size/1024)+' KB');await loadPhotoMeta();renderRel()}
+async function addGoodPhoto(id){const u=await uploadPhoto('bienes/'+id);if(!u)return;const rows=goodPhotos[id]||[],r=await db.from('fotos_bienes').insert({bien_id:id,ruta_storage:u.path,descripcion:'Foto del bien',es_principal:rows.length===0});if(r.error){await db.storage.from(BUCKET).remove([u.path]);return alert(r.error.message)}alert('Foto guardada. Original: '+Math.round(u.original/1024)+' KB · subida: '+Math.round(u.size/1024)+' KB');await loadPhotoMeta();renderRel()}
+async function removeGalleryPhoto(kind,row,goodId,title,back){if(!confirm('¿Eliminar esta foto definitivamente? Se borrará también del almacenamiento.'))return;busy('Eliminando foto...');try{const table=kind==='office'?'fotos_oficinas':'fotos_bienes',d=await db.from(table).delete().eq('id',row.id);if(d.error)throw d.error;const s=await db.storage.from(BUCKET).remove([row.ruta_storage]);if(s.error)alert('La foto dejó de figurar, pero hubo un problema al limpiar el archivo: '+s.error.message);await loadPhotoMeta();let rows=kind==='office'?officePhotos:(goodPhotos[goodId]||[]);if(row.es_principal&&rows.length&&!rows.some(x=>x.es_principal)){await db.from(table).update({es_principal:true}).eq('id',rows[0].id);await loadPhotoMeta();rows=kind==='office'?officePhotos:(goodPhotos[goodId]||[])}if(rows.length)gallery(title,rows,kind,back,goodId);else back()}catch(err){alert('No se pudo eliminar: '+(err.message||err))}finally{unbusy()}}
+async function gallery(title,rows,kind,back,goodId=null){busy('Abriendo fotos...');try{const a=[];for(const x of rows)a.push({...x,url:await signedPhoto(x.ruta_storage)});app.innerHTML='<div class="hero"><small>GALERÍA PRIVADA</small><h2>'+e(title)+'</h2><div>'+a.length+' foto(s)</div></div><div class="hint">Tocá una foto para ampliarla. Las fotos son privadas.</div><div class="photos">'+a.map((x,i)=>'<div class="photo"><img data-photo="'+i+'" src="'+e(x.url)+'"><div class="isub">'+e(x.descripcion||'')+(x.es_principal?' · Principal':'')+'</div><button class="btn red" data-del="'+i+'" style="width:100%;margin-top:7px">Eliminar foto</button></div>').join('')+'</div><button id="backgal" class="btn ghost" style="width:100%;margin-top:12px">Volver</button>';document.getElementById('backgal').onclick=back;document.querySelectorAll('[data-photo]').forEach(img=>img.onclick=()=>{const x=a[Number(img.dataset.photo)];openLightbox(x.url,x.descripcion||'')});document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const x=a[Number(b.dataset.del)];removeGalleryPhoto(kind,x,goodId,title,back)})}finally{unbusy()}}
+async function viewEvidence(id){const x=it(id);if(!x.foto_url){alert('Esta observación no tiene foto de evidencia.');return}busy('Abriendo evidencia...');try{const url=await signedPhoto(x.foto_url);if(!url){alert('No se pudo abrir la foto.');return}openLightbox(url,x.observaciones||'Evidencia de observación')}finally{unbusy()}}
+function renderRel(){app.innerHTML='<div class="hero"><small>RELEVAMIENTO EN CURSO</small><h2>'+e(office.nombre)+'</h2><small>'+e(profile.nombre||profile.email)+'</small></div><div class="card"><div class="between"><div><div class="ititle">Foto general de la oficina</div><div class="isub">'+officePhotos.length+' foto(s) guardada(s)</div></div></div><div class="actions"><button id="officephoto" class="btn purple">📷 Foto de oficina</button>'+(officePhotos.length?'<button id="officegallery" class="btn ghost">Ver fotos de oficina</button>':'')+'</div></div><div class="title">Bienes de esta oficina</div><div id="cur"></div><div class="title" style="margin-top:18px">Pendientes de ubicar de esta Dirección ('+pending.length+')</div><div class="muted">Marcá “Está acá” solamente si lo verificás físicamente. Si no estás en la oficina, no toques estos bienes.</div><div id="pen"></div><div class="card"><div class="ititle">¿Encontraste algo que no figura?</div><button id="new" class="btn blue" style="width:100%;margin-top:8px">Bien nuevo detectado</button></div><div class="row"><button id="back" class="btn ghost">Inventario</button><button id="relqr" class="btn blue">QR de esta oficina</button><button id="finish" class="btn green" style="flex:1">Finalizar relevamiento</button></div>';document.getElementById('cur').innerHTML=current.map(g=>{const x=it(g.id),photos=goodPhotos[g.id]||[];return '<div class="item"><div class="between"><div><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div></div><span class="pill">'+e(x.resultado)+'</span></div>'+(x.observaciones?'<div class="isub" style="margin-top:7px"><b>Observación:</b> '+e(x.observaciones)+'</div>':'')+'<div class="isub">Fotos del bien: '+photos.length+(x.foto_url?' · Evidencia fotográfica en observación':'')+'</div><div class="actions"><button class="btn green" data-f="'+g.id+'">Encontrado</button><button class="btn red" data-m="'+g.id+'">Faltante</button><button class="btn orange" data-o="'+g.id+'">Observación</button><button class="btn purple" data-photoadd="'+g.id+'">📷 Foto del bien</button>'+(photos.length?'<button class="btn ghost" data-photosee="'+g.id+'">Ver fotos</button>':'')+(x.foto_url?'<button class="btn blue" data-evidence="'+g.id+'">Ver evidencia</button>':'')+'<button class="btn ghost" data-move="'+g.id+'">Mover a otra oficina</button></div></div>'}).join('')||'<div class="card muted">Todavía no hay bienes asignados.</div>';document.getElementById('pen').innerHTML=pending.map(g=>'<div class="item"><div class="ititle">'+e(g.descripcion)+'</div><div class="isub">'+e([g.codigo?('Código '+g.codigo):'',g.marca,g.modelo,g.color].filter(Boolean).join(' · '))+'</div><button class="btn blue" data-h="'+g.id+'" style="margin-top:8px;width:100%">Está en esta oficina</button></div>').join('')||'<div class="card muted">No quedan pendientes.</div>';document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>mark(b.dataset.f,'encontrado'));document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>mark(b.dataset.m,'faltante'));document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>obsForm(b.dataset.o));document.querySelectorAll('[data-photoadd]').forEach(b=>b.onclick=()=>addGoodPhoto(b.dataset.photoadd));document.querySelectorAll('[data-photosee]').forEach(b=>b.onclick=()=>{const g=current.find(x=>x.id===b.dataset.photosee);gallery(g?.descripcion||'Fotos del bien',goodPhotos[b.dataset.photosee]||[],'good',renderRel,b.dataset.photosee)});document.querySelectorAll('[data-evidence]').forEach(b=>b.onclick=()=>viewEvidence(b.dataset.evidence));document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>moveGood(b.dataset.move));document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>here(b.dataset.h));document.getElementById('officephoto').onclick=addOfficePhoto;if(document.getElementById('officegallery'))document.getElementById('officegallery').onclick=()=>gallery('Fotos de '+office.nombre,officePhotos,'office',renderRel);document.getElementById('new').onclick=newGood;document.getElementById('back').onclick=()=>pub();document.getElementById('relqr').onclick=()=>showOfficeQR({nombre:office.nombre,area:office.areas?.nombre||'',sede:office.sedes?.nombre||'Edificio Municipal',slug_qr:office.slug_qr},()=>renderRel());document.getElementById('finish').onclick=finish}
+async function mark(id,res,extra={}){const r=await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:res,oficina_observada_id:office.id,verificado_en:new Date().toISOString(),...extra},{onConflict:'relevamiento_id,bien_id'});if(r.error){alert(r.error.message);return}await loadItems();renderRel()}
+function obsForm(id){const g=current.find(x=>x.id===id),old=it(id);app.innerHTML='<div class="hero"><small>OBSERVACIÓN DEL BIEN</small><h2>'+e(g?.descripcion||'Bien')+'</h2></div><div class="card"><div class="field"><label>Observación</label><textarea id="obstext" placeholder="Describí lo observado...">'+e(old.observaciones||'')+'</textarea></div><div class="hint">Podés guardar solamente el texto o adjuntar una foto como evidencia. La evidencia queda separada de las fotos normales del bien.</div><div class="actions"><button id="saveobs" class="btn orange">Guardar observación</button><button id="saveobsphoto" class="btn purple">📷 Guardar + foto</button><button id="cancelobs" class="btn ghost">Cancelar</button></div></div>';document.getElementById('cancelobs').onclick=renderRel;document.getElementById('saveobs').onclick=()=>saveObservation(id,false);document.getElementById('saveobsphoto').onclick=()=>saveObservation(id,true)}
+async function saveObservation(id,withPhoto){const text=document.getElementById('obstext').value.trim();if(!text){alert('Escribí una observación.');return}let photoPath=it(id).foto_url||null,u=null;if(withPhoto){u=await uploadPhoto('relevamientos/'+rel.id+'/observaciones/'+id);if(u)photoPath=u.path}const r=await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:'observado',observaciones:text,oficina_observada_id:office.id,verificado_en:new Date().toISOString(),foto_url:photoPath},{onConflict:'relevamiento_id,bien_id'});if(r.error){if(u)await db.storage.from(BUCKET).remove([u.path]);alert(r.error.message);return}await loadItems();renderRel();alert(withPhoto&&u?'Observación y foto de evidencia guardadas.':'Observación guardada.')}
+async function here(id){if(!confirm('¿Confirmás que este bien está físicamente en esta oficina?'))return;const u=await db.from('bienes').update({oficina_id:office.id}).eq('id',id);if(u.error){alert(u.error.message);return}await db.from('movimientos').insert({bien_id:id,oficina_destino_id:office.id,area_destino_id:office.area_id,motivo:'Asignado durante relevamiento',realizado_por:session.user.id});await loadOffice();await mark(id,'encontrado')}
+async function moveGood(id){const good=current.find(x=>x.id===id);if(!good){alert('No se encontró el bien en esta oficina.');return}const r=await db.from('oficinas').select('id,nombre,area_id,slug_qr').eq('activa',true).neq('id',office.id).order('nombre');if(r.error){alert('No se pudieron cargar las oficinas: '+r.error.message);return}const offices=r.data||[];if(!offices.length){alert('Todavía no hay otra oficina activa cargada.');return}app.innerHTML='<div class="hero"><small>MOVIMIENTO DE BIEN</small><h2>'+e(good.descripcion||'Bien')+'</h2><small>Origen: '+e(office.nombre)+'</small></div><div class="card"><div class="muted" style="margin-bottom:10px">Este movimiento cambia solamente la ubicación física. El área responsable del bien se mantiene.</div><form id="moveform"><div class="field"><label>Oficina destino</label><select id="dest" required><option value="">Elegí una oficina...</option>'+offices.map(o=>'<option value="'+e(o.id)+'">'+e(o.nombre)+'</option>').join('')+'</select></div><div class="field"><label>Motivo / detalle</label><textarea id="reason" placeholder="Ej.: traslado definitivo, préstamo interno, reorganización..."></textarea></div><button class="btn green" style="width:100%">Confirmar traslado</button></form><button id="cancelmove" class="btn ghost" style="width:100%;margin-top:8px">Cancelar</button></div>';document.getElementById('cancelmove').onclick=()=>renderRel();document.getElementById('moveform').onsubmit=async ev=>{ev.preventDefault();const destId=document.getElementById('dest').value,dest=offices.find(o=>o.id===destId),reason=document.getElementById('reason').value.trim();if(!dest)return;if(!confirm('¿Mover “'+(good.descripcion||'Bien')+'” de '+office.nombre+' a '+dest.nombre+'?'))return;const m=await db.rpc('mover_bien_oficina',{p_bien_id:id,p_oficina_destino_id:dest.id,p_motivo:reason||'Traslado entre oficinas'});if(m.error){alert('No se pudo mover el bien: '+m.error.message);return}const note='Movido a '+dest.nombre+(reason?' · '+reason:'');await db.from('relevamiento_items').upsert({relevamiento_id:rel.id,bien_id:id,resultado:'observado',observaciones:note,oficina_observada_id:office.id,verificado_en:new Date().toISOString()},{onConflict:'relevamiento_id,bien_id'});await loadOffice();await loadItems();renderRel();alert('Bien trasladado a '+dest.nombre+'. El movimiento quedó guardado en el historial.')}}
+async function newGood(){const d=prompt('Descripción del bien nuevo:');if(!d)return;const r=await db.from('relevamiento_novedades').insert({relevamiento_id:rel.id,tipo:'bien_nuevo',descripcion:d,datos:{oficina_id:office.id,oficina:office.nombre}});if(r.error)alert(r.error.message);else alert('Novedad registrada.')}
+async function finish(){await loadItems();const p=items.filter(x=>x.resultado==='pendiente').length;if(p&&!confirm('Quedan '+p+' bienes pendientes. Se marcarán faltantes. ¿Finalizar?'))return;if(p)await db.from('relevamiento_items').update({resultado:'faltante',verificado_en:new Date().toISOString()}).eq('relevamiento_id',rel.id).eq('resultado','pendiente');const r=await db.from('relevamientos').update({estado:'cerrado',fecha_cierre:new Date().toISOString()}).eq('id',rel.id);if(r.error){alert(r.error.message);return}rel=null;pub('Relevamiento finalizado y guardado.')}
+let recoveryShown=false;db.auth.onAuthStateChange((event,s)=>{if(event==='PASSWORD_RECOVERY'){recoveryShown=true;session=s;passwordRecovery()}});async function boot(){await new Promise(r=>setTimeout(r,250));if(recoveryShown)return;await sess();pub()}boot();
 </script>
 </body>
 </html>
