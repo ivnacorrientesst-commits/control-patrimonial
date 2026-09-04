@@ -17,23 +17,23 @@ function restoreRelView(){const q=document.getElementById('relsearch');if(q){q.v
 assert 'function renderRel(){' in s
 s=s.replace('function renderRel(){',helper+'function renderRel(){',1)
 
-oldseg='<div class="title">Bienes de esta oficina</div><div class="muted">Solo se guarda lo que revises en este relevamiento. Los bienes que no toques conservan su último control.</div><div id="cur"></div>'
-newseg='<div class="title">Bienes de esta oficina</div><div class="muted">Solo se guarda lo que revises en este relevamiento. Los bienes que no toques conservan su último control.</div><input id="relsearch" class="search" placeholder="Buscar bien por descripción, código, marca, modelo..." value="'+e(relSearch)+'" style="margin:10px 0"><div id="cur"></div>'
+oldseg='''<div class="title">Bienes de esta oficina</div><div class="muted">Solo se guarda lo que revises en este relevamiento. Los bienes que no toques conservan su último control.</div><div id="cur"></div>'''
+newseg='''<div class="title">Bienes de esta oficina</div><div class="muted">Solo se guarda lo que revises en este relevamiento. Los bienes que no toques conservan su último control.</div><input id="relsearch" class="search" placeholder="Buscar bien por descripción, código, marca, modelo..." value="'+e(relSearch)+'" style="margin:10px 0"><div id="cur"></div>'''
 assert oldseg in s, 'No se encontró cabecera de bienes'
 s=s.replace(oldseg,newseg,1)
 
-oldcur="document.getElementById('cur').innerHTML=current.map(g=>{const x=it(g.id),photos=goodPhotos[g.id]||[];return '<div class=\"item\">"
-newcur="document.getElementById('cur').innerHTML=current.map(g=>{const x=it(g.id),photos=goodPhotos[g.id]||[];return '<div class=\"item\" data-rel-search=\"'+e(relSearchText(g))+'\">"
+oldcur='''document.getElementById('cur').innerHTML=current.map(g=>{const x=it(g.id),photos=goodPhotos[g.id]||[];return '<div class="item">'''
+newcur='''document.getElementById('cur').innerHTML=current.map(g=>{const x=it(g.id),photos=goodPhotos[g.id]||[];return '<div class="item" data-rel-search="'+e(relSearchText(g))+'">'''
 assert oldcur in s, 'No se encontró listado actual'
 s=s.replace(oldcur,newcur,1)
 
-oldpen="document.getElementById('pen').innerHTML=pending.map(g=>'<div class=\"item\">"
-newpen="document.getElementById('pen').innerHTML=pending.map(g=>'<div class=\"item\" data-rel-search=\"'+e(relSearchText(g))+'\">"
+oldpen='''document.getElementById('pen').innerHTML=pending.map(g=>'<div class="item">'''
+newpen='''document.getElementById('pen').innerHTML=pending.map(g=>'<div class="item" data-rel-search="'+e(relSearchText(g))+'">'''
 assert oldpen in s, 'No se encontró listado pendiente'
 s=s.replace(oldpen,newpen,1)
 
-oldnew="document.getElementById('newfinds').innerHTML=newFinds.map(n=>{const added=n.resuelta&&n.bien_id;return '<div class=\"item\">"
-newnew="document.getElementById('newfinds').innerHTML=newFinds.map(n=>{const added=n.resuelta&&n.bien_id;return '<div class=\"item\" data-rel-search=\"'+e(relSearchText(n))+'\">"
+oldnew='''document.getElementById('newfinds').innerHTML=newFinds.map(n=>{const added=n.resuelta&&n.bien_id;return '<div class="item">'''
+newnew='''document.getElementById('newfinds').innerHTML=newFinds.map(n=>{const added=n.resuelta&&n.bien_id;return '<div class="item" data-rel-search="'+e(relSearchText(n))+'">'''
 assert oldnew in s, 'No se encontró listado de novedades'
 s=s.replace(oldnew,newnew,1)
 
@@ -67,7 +67,6 @@ newobs="""async function saveObservation(id,source=null){rememberRelView();const
 async function here(id){"""
 s=s[:m.start()]+newobs+s[m.end():]
 
-# Mejora el texto del formulario para dejar claro que la foto puede guardarse sola.
 s=s.replace('Podés guardar solamente el texto o adjuntar una foto como evidencia.','Podés guardar texto, una foto sola o texto + foto como evidencia.',1)
 s=s.replace('📷 Guardar + cámara','📷 Sacar foto y guardar',1)
 s=s.replace('🖼️ Guardar + subir foto','🖼️ Subir foto y guardar',1)
