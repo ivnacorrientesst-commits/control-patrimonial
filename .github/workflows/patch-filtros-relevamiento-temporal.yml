@@ -1,0 +1,27 @@
+name: Aplicar filtros del relevamiento
+
+on:
+  push:
+    paths:
+      - '.github/scripts/patch-filtros-relevamiento-temporal.py'
+      - '.github/workflows/patch-filtros-relevamiento-temporal.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Aplicar filtros
+        run: python .github/scripts/patch-filtros-relevamiento-temporal.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Agregar filtros de estado y resultado al relevamiento"
+          git push origin main
