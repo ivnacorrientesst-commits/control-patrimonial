@@ -1,0 +1,28 @@
+name: Aplicar menú multi-sede
+
+on:
+  push:
+    paths:
+      - '.github/scripts/patch-multisede-menu.py'
+      - '.github/workflows/patch-multisede-menu.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event.head_commit.message == 'Ejecutar menú multi-sede'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Aplicar parche multi-sede
+        run: python .github/scripts/patch-multisede-menu.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html administracion.html
+          git commit -m "Agregar menú multi-sede y cambio de sede"
+          git push origin main
